@@ -1,0 +1,12 @@
+---
+- name: Install default extensions
+  apt: pkg={{ item }} state=present
+  with_items: php_default_extensions
+  sudo: yes
+  when: php_default_extensions | length > 0
+
+- name: Install additional extensions
+  apt: pkg={{ item }} state=present
+  with_items: php_extensions
+  sudo: yes
+  when: php_extensions | length > 0

@@ -1,0 +1,28 @@
+---
+- name: Install dev packages
+  apt: pkg={{ item }} state=present
+  sudo: yes
+  with_items:
+    - php5-dev
+  when: php_pecl_extensions|length > 0
+
+- name: Install PECL extensions
+  shell: echo "\n\n\n\n\n\n\n\n\n\n" | pecl install {{ item }}
+  register: pecl_result
+  changed_when: "'already installed' not in pecl_result.stdout"
+  failed_when: "pecl_result.stderr or ('ERROR' in pecl_result.stdout)"
+  sudo: yes
+  with_items: php_pecl_extensions
+
+- name: Create an INI file for the PECL extension.
+  lineinfile:
+    dest=/etc/php5/mods-available/{{ item }}.ini
+    line="extension={{ item }}.so"
+    state=present
+    create=yes
+  with_items: php_pecl_extensions
+
+- name: Enable the PECL extension
+  shell: php5enmod {{ item }}
+  with_items: php_pecl_extensions
+  notify: restart webserver

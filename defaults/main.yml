@@ -1,0 +1,47 @@
+---
+# If the webserver is "apache2", the role will install libapache2-mod-php5
+php_webserver: apache2
+
+# These packages are necessary to install PHP.
+php_default_packages:
+  - php5
+  - php5-common
+  - php5-cli
+
+# The packages are optional modules, but are generally needed.
+php_default_extensions:
+  - php5-curl
+  - php5-mcrypt
+  - php5-intl
+  - php5-json
+
+# PHP extensions to be installed.
+php_extensions: []
+
+# Default config (which will be written to both cli/php.ini and apache/php.ini).
+php_default_config:
+  expose_php: off
+  display_errors: on
+
+# The default config for cli/php.ini
+php_default_cli_config:
+  max_execution_time: 0
+
+# The default config for apache/php.ini
+php_default_apache_config:
+  max_execution_time: 30
+
+# Custom config which will be used for both cli/php.ini and apache/php.ini
+php_config:
+  max_execution_time: 0
+
+# Custom config which will be used for apache/php.ini
+php_apache_config:
+  max_execution_time: 30
+
+# Custom config which will be used for cli/php.ini
+php_cli_config:
+ max_execution_time: 400
+
+# Pecl extensions to install.
+php_pecl_extensions: []

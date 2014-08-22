@@ -1,0 +1,12 @@
+# Install PHP packages.
+---
+- name: Install base PHP packages
+  apt: pkg={{ item }} state=present
+  sudo: yes
+  with_items: php_default_packages
+  when: php_default_packages | length > 0
+
+- name: Install apache2-mod-php5
+  apt: pkg=libapache2-mod-php5 state=present
+  sudo: yes
+  when: php_webserver == 'apache2'
