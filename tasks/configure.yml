@@ -43,6 +43,7 @@
     line="{{ item.key }} = {{ item.value }}"
   with_dict: php_default_config
   when: php_default_config|length > 0
+  notify: restart webserver
 
 - name: Set default CLI config for apache2/php.ini
   lineinfile: >
@@ -51,6 +52,7 @@
     line="{{ item.key }} = {{ item.value }}"
   with_dict: php_default_apache_config
   when: php_default_apache_config|length > 0
+  notify: restart webserver
 
 - name: Set custom config for apache2/php.ini
   lineinfile: >
@@ -59,6 +61,7 @@
     line="{{ item.key }} = {{ item.value }}"
   with_dict: php_config
   when: php_config|length > 0
+  notify: restart webserver
 
 - name: Set custom Apache config for apache2/php.ini
   lineinfile: >
@@ -67,3 +70,4 @@
     line="{{ item.key }} = {{ item.value }}"
   with_dict: php_apache_config
   when: php_apache_config|length > 0
+  notify: restart webserver

@@ -4,3 +4,4 @@
   with_items: php_extensions
   sudo: yes
   when: php_extensions | length > 0
+  notify: restart webserver

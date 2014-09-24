@@ -1,9 +1,8 @@
 ---
 galaxy_info:
-  author: Berry Langerak
+  author: Yosh de Vos
   description: A role for installing and configuring PHP.
-  company: Enrise
-  license: BSD
+  license: MIT
   min_ansible_version: 1.5
 
   platforms:
