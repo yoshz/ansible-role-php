@@ -3,20 +3,21 @@
 php_webserver: apache2
 
 # These packages are necessary to install PHP.
-php_default_packages:
+php_packages:
   - php5
   - php5-common
   - php5-cli
-
-# The packages are optional modules, but are generally needed.
-php_default_extensions:
   - php5-curl
   - php5-mcrypt
   - php5-intl
   - php5-json
 
-# PHP extensions to be installed.
-php_extensions: []
+# PHP extensions to be enabled
+php_extensions:
+  - curl
+  - mcrypt
+  - intl
+  - json
 
 # Default config (which will be written to both cli/php.ini and apache/php.ini).
 php_default_config:
