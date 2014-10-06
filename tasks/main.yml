@@ -12,3 +12,6 @@
 - include: pecl.yml
   tags: [php, php-pecl]
 
+- include: pear.yml
+  tags: [php, php-pear]
+

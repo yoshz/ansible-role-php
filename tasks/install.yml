@@ -10,3 +10,8 @@
   apt: pkg=libapache2-mod-php5 state=present
   sudo: yes
   when: php_webserver == 'apache2'
+
+- name: Install php5-fpm
+  apt: pkg=php5-fpm state=present
+  sudo: yes
+  when: php_webserver == 'php5-fpm'

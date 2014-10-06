@@ -1,33 +1,5 @@
-# Configuration uses dictionaries, which are quite useful for setting a large amount of settings
-# in a (bunch of) config files. However, ansible doesn't provide a filter or function to merge
-# dictionaries, so we're stuck with executing them one at a time.
 ---
-# First, do the CLI configuration.
-- name: Set default config for cli/php.ini.
-  lineinfile: >
-    state=present
-    dest=/etc/php5/cli/php.ini
-    line="{{ item.key }} = {{ item.value }}"
-  with_dict: php_default_config
-  when: php_default_config|length > 0
-
-- name: Set default CLI config for cli/php.ini
-  lineinfile: >
-    state=present
-    dest=/etc/php5/cli/php.ini
-    line="{{ item.key }} = {{ item.value }}"
-  with_dict: php_default_cli_config
-  when: php_default_cli_config|length > 0
-
-- name: Set custom config for cli/php.ini
-  lineinfile: >
-    state=present
-    dest=/etc/php5/cli/php.ini
-    line="{{ item.key }} = {{ item.value }}"
-  with_dict: php_config
-  when: php_config|length > 0
-
-- name: Set custom CLI config for cli/php.ini
+- name: Set configuration for cli/php.ini.
   lineinfile: >
     state=present
     dest=/etc/php5/cli/php.ini
@@ -35,39 +7,20 @@
   with_dict: php_cli_config
   when: php_cli_config|length > 0
 
-# Then, Apache configuration.
-- name: Set default config for apache2/php.ini.
+- name: Set configuration for apache2/php.ini.
   lineinfile: >
     state=present
     dest=/etc/php5/apache2/php.ini
     line="{{ item.key }} = {{ item.value }}"
-  with_dict: php_default_config
-  when: php_default_config|length > 0
+  with_dict: php_apache2_config
+  when: php_apache2_config|length > 0 and php_webserver == 'apache2'
   notify: restart webserver
 
-- name: Set default CLI config for apache2/php.ini
+- name: Set configuration for fpm/php.ini.
   lineinfile: >
     state=present
-    dest=/etc/php5/apache2/php.ini
+    dest=/etc/php5/fpm/php.ini
     line="{{ item.key }} = {{ item.value }}"
-  with_dict: php_default_apache_config
-  when: php_default_apache_config|length > 0
-  notify: restart webserver
-
-- name: Set custom config for apache2/php.ini
-  lineinfile: >
-    state=present
-    dest=/etc/php5/apache2/php.ini
-    line="{{ item.key }} = {{ item.value }}"
-  with_dict: php_config
-  when: php_config|length > 0
-  notify: restart webserver
-
-- name: Set custom Apache config for apache2/php.ini
-  lineinfile: >
-    state=present
-    dest=/etc/php5/apache2/php.ini
-    line="{{ item.key }} = {{ item.value }}"
-  with_dict: php_apache_config
-  when: php_apache_config|length > 0
+  with_dict: php_fpm_config
+  when: php_fpm_config|length > 0 and php_webserver == 'php5-fpm'
   notify: restart webserver

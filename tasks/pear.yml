@@ -1,0 +1,18 @@
+---
+- name: Install the system PEAR package
+  apt: name=php-pear state=present
+  when: php_pear_packages | length > 0
+
+- name: Discover PEAR channels
+  command: pear channel-discover {{ item }}
+  with_items: php_pear_channels
+  register: php_pear_channel_result
+  changed_when: "'initialized' not in php_pear_channel_result.stdout"
+  failed_when: "'failed' in php_pear_channel_result.stdout"
+
+- name: Install PEAR packages
+  command: pear install {{ php_pear_package_flags }} {{ item }}
+  with_items: php_pear_packages
+  register: php_pear_package_result
+  changed_when: "'is already installed' not in php_pear_package_result.stdout"
+  failed_when:  "'No releases available for package' in php_pear_package_result.stdout"

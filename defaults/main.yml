@@ -1,6 +1,7 @@
 ---
 # If the webserver is "apache2", the role will install libapache2-mod-php5
-php_webserver: apache2
+# If the webserver is "nginx", the role will install php5-fpm
+php_webserver: ~
 
 # These packages are necessary to install PHP.
 php_packages:
@@ -11,30 +12,21 @@ php_packages:
 # PHP extensions to be enabled
 php_extensions: []
 
-# Default config (which will be written to both cli/php.ini and apache/php.ini).
-php_default_config:
-  expose_php: off
-  display_errors: on
+# Custom configuration for cli/php.ini
+php_cli_config: {}
 
-# The default config for cli/php.ini
-php_default_cli_config:
-  max_execution_time: 0
+# Custom configuration for fpm/php.ini
+php_fpm_config: {}
 
-# The default config for apache/php.ini
-php_default_apache_config:
-  max_execution_time: 30
-
-# Custom config which will be used for both cli/php.ini and apache/php.ini
-php_config:
-  max_execution_time: 0
-
-# Custom config which will be used for apache/php.ini
-php_apache_config:
-  max_execution_time: 30
-
-# Custom config which will be used for cli/php.ini
-php_cli_config:
- max_execution_time: 400
+# Custom configuration for apache2/php.ini
+php_apache2_config: {}
 
 # Pecl extensions to install.
 php_pecl_extensions: []
+
+# Pear package flags used during install
+php_pear_package_flags: --alldeps
+
+# Pear channels and packages to install.
+php_pear_channels: []
+php_pear_packages: []
