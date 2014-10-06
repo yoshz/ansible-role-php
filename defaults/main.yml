@@ -12,6 +12,9 @@ php_packages:
 # PHP extensions to be enabled
 php_extensions: []
 
+# Default configuration
+php_default_config: {}
+
 # Custom configuration for cli/php.ini
 php_cli_config: {}
 
