@@ -15,6 +15,10 @@ php_extensions: []
 # Default configuration
 php_default_config: {}
 
+# Extra configuration if you need to override the defaults
+# (Useful when hash_behaviour is configured as replace)
+php_override_config: {}
+
 # Custom configuration for cli/php.ini
 php_cli_config: {}
 

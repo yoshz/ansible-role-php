@@ -4,6 +4,7 @@
     state=present
     dest=/etc/php5/cli/php.ini
     line="{{ item.key }} = {{ item.value }}"
+    regexp="^{{ item.key }} ="
   with_dict: php_default_config
   when: php_default_config|length > 0
 
@@ -12,14 +13,25 @@
     state=present
     dest=/etc/php5/cli/php.ini
     line="{{ item.key }} = {{ item.value }}"
+    regexp="^{{ item.key }} ="
   with_dict: php_cli_config
   when: php_cli_config|length > 0
+
+- name: Set override configuration for cli/php.ini.
+  lineinfile: >
+    state=present
+    dest=/etc/php5/cli/php.ini
+    line="{{ item.key }} = {{ item.value }}"
+    regexp="^{{ item.key }} ="
+  with_dict: php_override_config
+  when: php_override_config|length > 0
 
 - name: Set default configuration for apache2/php.ini.
   lineinfile: >
     state=present
     dest=/etc/php5/apache2/php.ini
     line="{{ item.key }} = {{ item.value }}"
+    regexp="^{{ item.key }} ="
   with_dict: php_default_config
   when: php_default_config|length > 0 and php_webserver == 'apache2'
   notify: restart webserver
@@ -29,8 +41,19 @@
     state=present
     dest=/etc/php5/apache2/php.ini
     line="{{ item.key }} = {{ item.value }}"
+    regexp="^{{ item.key }} ="
   with_dict: php_apache2_config
   when: php_apache2_config|length > 0 and php_webserver == 'apache2'
+  notify: restart webserver
+
+- name: Set override configuration for apache2/php.ini.
+  lineinfile: >
+    state=present
+    dest=/etc/php5/apache2/php.ini
+    line="{{ item.key }} = {{ item.value }}"
+    regexp="^{{ item.key }} ="
+  with_dict: php_override_config
+  when: php_override_config|length > 0
   notify: restart webserver
 
 - name: Set default configuration for fpm/php.ini.
@@ -38,6 +61,7 @@
     state=present
     dest=/etc/php5/fpm/php.ini
     line="{{ item.key }} = {{ item.value }}"
+    regexp="^{{ item.key }} ="
   with_dict: php_default_config
   when: php_default_config|length > 0 and php_webserver == 'php5-fpm'
   notify: restart webserver
@@ -47,6 +71,17 @@
     state=present
     dest=/etc/php5/fpm/php.ini
     line="{{ item.key }} = {{ item.value }}"
+    regexp="^{{ item.key }} ="
   with_dict: php_fpm_config
   when: php_fpm_config|length > 0 and php_webserver == 'php5-fpm'
+  notify: restart webserver
+
+- name: Set override configuration for fpm/php.ini.
+  lineinfile: >
+    state=present
+    dest=/etc/php5/fpm/php.ini
+    line="{{ item.key }} = {{ item.value }}"
+    regexp="^{{ item.key }} ="
+  with_dict: php_override_config
+  when: php_override_config|length > 0 and php_webserver == 'php5-fpm'
   notify: restart webserver
