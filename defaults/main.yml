@@ -28,6 +28,9 @@ php_fpm_config: {}
 # Custom configuration for apache2/php.ini
 php_apache2_config: {}
 
+# FPM configuration for fpm/pool.d/www.conf
+php_fpm_pool_config: {}
+
 # Pecl extensions to install.
 php_pecl_extensions: []
 

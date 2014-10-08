@@ -85,3 +85,13 @@
   with_dict: php_override_config
   when: php_override_config|length > 0 and php_webserver == 'php5-fpm'
   notify: restart webserver
+
+- name: Set fpm settings.
+  lineinfile: >
+    state=present
+    dest=/etc/php5/fpm/pool.d/www.conf
+    line="{{ item.key }} = {{ item.value }}"
+    regexp="^{{ item.key }} ="
+  with_dict: php_fpm_pool_config
+  when: php_fpm_pool_config|length > 0 and php_webserver == 'php5-fpm'
+  notify: restart webserver
