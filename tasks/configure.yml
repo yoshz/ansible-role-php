@@ -33,7 +33,7 @@
     line="{{ item.key }} = {{ item.value }}"
     regexp="^{{ item.key }} ="
   with_dict: php_default_config
-  when: php_default_config|length > 0 and php_webserver == 'apache2'
+  when: php_webserver == 'apache2' and php_default_config|length > 0
   notify: restart webserver
 
 - name: Set specific configuration for apache2/php.ini.
@@ -43,7 +43,7 @@
     line="{{ item.key }} = {{ item.value }}"
     regexp="^{{ item.key }} ="
   with_dict: php_apache2_config
-  when: php_apache2_config|length > 0 and php_webserver == 'apache2'
+  when: php_webserver == 'apache2' and php_apache2_config|length > 0
   notify: restart webserver
 
 - name: Set override configuration for apache2/php.ini.
@@ -53,7 +53,7 @@
     line="{{ item.key }} = {{ item.value }}"
     regexp="^{{ item.key }} ="
   with_dict: php_override_config
-  when: php_override_config|length > 0
+  when: php_webserver == 'apache2' and php_override_config|length > 0
   notify: restart webserver
 
 - name: Set default configuration for fpm/php.ini.
@@ -63,7 +63,7 @@
     line="{{ item.key }} = {{ item.value }}"
     regexp="^{{ item.key }} ="
   with_dict: php_default_config
-  when: php_default_config|length > 0 and php_webserver == 'php5-fpm'
+  when: php_webserver == 'php5-fpm' and php_default_config|length > 0
   notify: restart webserver
 
 - name: Set specific configuration for fpm/php.ini.
@@ -73,7 +73,7 @@
     line="{{ item.key }} = {{ item.value }}"
     regexp="^{{ item.key }} ="
   with_dict: php_fpm_config
-  when: php_fpm_config|length > 0 and php_webserver == 'php5-fpm'
+  when: php_webserver == 'php5-fpm' and php_fpm_config|length > 0
   notify: restart webserver
 
 - name: Set override configuration for fpm/php.ini.
@@ -83,15 +83,15 @@
     line="{{ item.key }} = {{ item.value }}"
     regexp="^{{ item.key }} ="
   with_dict: php_override_config
-  when: php_override_config|length > 0 and php_webserver == 'php5-fpm'
+  when: php_webserver == 'php5-fpm' and php_override_config|length > 0
   notify: restart webserver
 
-- name: Set fpm settings.
+- name: Set fpm pool settings.
   lineinfile: >
     state=present
     dest=/etc/php5/fpm/pool.d/www.conf
     line="{{ item.key }} = {{ item.value }}"
     regexp="^{{ item.key }} ="
   with_dict: php_fpm_pool_config
-  when: php_fpm_pool_config|length > 0 and php_webserver == 'php5-fpm'
+  when: php_webserver == 'php5-fpm' and php_fpm_pool_config|length > 0
   notify: restart webserver
