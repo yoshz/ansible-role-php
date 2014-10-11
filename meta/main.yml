@@ -1,18 +1,15 @@
 ---
 galaxy_info:
   author: Yosh de Vos
-  description: A role for installing and configuring PHP.
+  description: An Ansible role for installing and configuring PHP on Ubuntu Trusty with support for Apache2, PHP-FPM, PEAR and PECL.
   license: MIT
+  version: 0.1
   min_ansible_version: 1.5
-
   platforms:
-  - name: Ubuntu
-    versions:
-    - trusty
-
+    - name: Ubuntu
+      versions:
+        - trusty
   categories:
-  - development
-  - web
-
+    - development
+    - web
   dependencies: []
-

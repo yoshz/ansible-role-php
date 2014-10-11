@@ -1,6 +1,6 @@
 ---
 # If the webserver is "apache2", the role will install libapache2-mod-php5
-# If the webserver is "nginx", the role will install php5-fpm
+# If the webserver is "php5-fpm", the role will install php5-fpm
 php_webserver: ~
 
 # These packages are necessary to install PHP.

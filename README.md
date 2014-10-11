@@ -1,20 +1,22 @@
-# php
+php
+===
 
-Ansible role which installs and configures PHP.
+An Ansible role for installing and configuring PHP on Ubuntu Trusty with support for Apache2, PHP-FPM, PEAR and PECL.
 
-## Requirements
 
-- Tested on Ansible 1.5
-- Tested on Ubuntu 14.04 (trusty), but it should work on any modern Debian based system.
+Requirements
+------------
 
-## Dependencies
+- Ubuntu Trusty
+- Nginx or Apache should be installed
 
-None.
 
-## Example playbook
+Role Variables
+--------------
 
-To use this role, build a vars file (vars/php.yml, for example) which you include in your playbook,
-which contains something like the following:
+See `defaults/main.yml` for a list of variables.
+
+Examples:
 
     php_webserver: apache2
 
@@ -24,10 +26,12 @@ which contains something like the following:
     php_apache_config:
       max_execution_time: 20
 
-    php_extensions:
-      - php5-gd
+    php_packages:
+      - php5-xdebug
       - php5-mysql
-      - php5-pgsql
+
+    php_extensions:
+      - mysql
 
     php_pecl_extensions:
       - mongo
@@ -38,18 +42,25 @@ which contains something like the following:
     php_pear_packages:
       - phpunit/phpunit
 
-Next, you can include the role in your playbook:
 
-    - hosts: all
-      sudo: yes
-      vars_files:
-        - vars/php.yml
-      roles:
-        - php
+It is also possible to configure PHP-FPM:
 
-There are a lot of config settings you can overwrite, but you'll have to refer to the files
-`defaults/main.yml` to see a list of variables and their description.
+    php_webserver: php5-fpm
 
-## Licence
+    php_fpm_pool_config:
+      user: vagrant
+      group: vagrant
+      listen.owner: vagrant
+      listen.group: vagrant
+    
+
+Dependencies
+------------
+
+None
+
+
+Licence
+-------
 
 MIT
